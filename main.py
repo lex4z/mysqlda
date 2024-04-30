@@ -15,18 +15,7 @@ db = mc.connect(
 )
 
 cursor = db.cursor()
-cursor.execute("SELECT Educational_Track_Name FROM oop WHERE Admission_year>0")
-oop_names = [i for i in cursor]
-#oop_names = oop_names[2:]
+cursor.execute("SELECT Educational_Track_Name FROM oop")
+oop_names = [i[0] for i in cursor]
 
 print(oop_names)
-
-
-'''
-cursor = db.cursor()
-
-cursor.execute("SHOW DATABASES")
-for i in cursor:
-    print(i)
-
-'''
