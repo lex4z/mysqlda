@@ -1,18 +1,11 @@
 import mysql.connector as mc
+import tkinter as tk
 import json
 
+with open("config.json") as f:
+    config = json.load(f)
 
-_host = "localhost"
-_user = "root"
-_password = ""
-_database = "anna"
-
-db = mc.connect(
-    host = _host,
-    user = _user,
-    password = _password,
-    database = _database
-)
+db = mc.connect(**config)
 
 cursor = db.cursor()
 cursor.execute("SELECT Educational_Track_Name FROM oop")
