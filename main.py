@@ -32,23 +32,28 @@ for (i,j) in cursor:
 cursor.execute("SELECT ID_OOP FROM real_oop ORDER BY Educational_Programm_Name")
 oop_ids = [i[0] for i in cursor]
 
-print(et_names,oop_names,oop_ids)
+#print(et_names,oop_names,oop_ids)
 
-def dropSelectd(event):
-    lbl1.config(text = drop.get())
+def dropSelected(event):
+    btn1.config(state="normal")
+    #lbl1.config(text = "Выберите направление")
 
-clicked = tk.StringVar()
+def show():
+    return
+
+drop_text = tk.StringVar()
 
 #drop = tk.OptionMenu(root, clicked, *oop_names, command=show)
 
 lbl1 = tk.Label(root, text = "Выберите направление")
 lbl1.pack()
 
-drop = ttk.Combobox(root, values = et_names, textvariable = clicked,state = "readonly",width=40)
+drop = ttk.Combobox(root, values = et_names, textvariable = drop_text,state = "readonly", width=40)
 drop.pack()
-drop.bind("<<ComboboxSelected>>", dropSelectd)
+drop.bind("<<ComboboxSelected>>", dropSelected)
 
-#btn = tk.Button(root, text = "reload", command=show).pack()
+btn1 = tk.Button(root, text = "Start",state = "disabled", command=show)
+btn1.pack()
 
 
 
