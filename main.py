@@ -32,9 +32,12 @@ print(oop_ids)
 
 def drop1_selected(event):
     btn1.config(state="normal")
+    btn1.focus_force()
 
+'''
 def drop1_check_input(event):
-    request = event.widget.get()
+    
+    request = drop1_text.get()
 
     if request != "":
         found_oop_ids = []
@@ -44,6 +47,7 @@ def drop1_check_input(event):
         drop1['values'] = found_oop_ids
     else:
         drop1['values'] = oop_ids[1]
+'''
 
 def btn1_click():
     return
@@ -53,9 +57,9 @@ drop1_text = tk.StringVar()
 lbl1 = tk.Label(root, text = "Выберите ООП")
 lbl1.pack()
 
-drop1 = ttk.Combobox(root, values = oop_ids[1], textvariable = drop1_text, width=70)
+drop1 = ttk.Combobox(root, values = oop_ids[1], textvariable = drop1_text, state="readonly", width=70)
 drop1.bind("<<ComboboxSelected>>", drop1_selected)
-drop1.bind("<KeyRelease>",drop1_check_input)
+#drop1.bind("<KeyRelease>",drop1_check_input)
 drop1.pack()
 
 btn1 = tk.Button(root, text = "Start",state = "disabled", command=btn1_click)
