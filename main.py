@@ -10,44 +10,53 @@ db = mc.connect(**config)
 
 root = tk.Tk()
 root.title("window")
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
+#screen_width = root.winfo_screenwidth()
+#screen_height = root.winfo_screenheight()
 
-window_width = int(screen_width*0.2)
-window_height = int(screen_height*0.3)
+window_width = 500
+window_height = 300
 
 root.geometry(f"{window_width}x{window_height}")
 
 
 cursor = db.cursor()
-cursor.execute("SELECT Educational_Track_Name, Educational_Programm_Name FROM oop ORDER BY Educational_Programm_Name")
+cursor.execute("SELECT ID_OOP,Educational_Programm_Name FROM real_oop ORDER BY Educational_Programm_Name")
 
-et_names = []
-oop_names = []
-oop_ids = []
+oop_ids = [[],[]] #oop_ids[0] - ID_OOP oop_ids[1] - oop_name[id]
 
 for (i,j) in cursor:
-    et_names.append(i)
-    oop_names.append(j)
+    oop_ids[0].append(i)
+    oop_ids[1].append(j)
 
-cursor.execute("SELECT ID_OOP FROM real_oop ORDER BY Educational_Programm_Name")
-oop_ids = [i[0] for i in cursor]
-
+print(oop_ids)
 
 def drop1_selected(event):
     btn1.config(state="normal")
 
+def drop1_check_input(event):
+    request = event.widget.get()
+
+    if request != "":
+        found_oop_ids = []
+        for i in oop_ids[1]:
+            if request.lower() in i.lower(): 
+                found_oop_ids.append(i)
+        drop1['values'] = found_oop_ids
+    else:
+        drop1['values'] = oop_ids[1]
+
 def btn1_click():
     return
 
-drop_text = tk.StringVar()
+drop1_text = tk.StringVar()
 
-lbl1 = tk.Label(root, text = "Выберите направление")
+lbl1 = tk.Label(root, text = "Выберите ООП")
 lbl1.pack()
 
-drop = ttk.Combobox(root, values = et_names, textvariable = drop_text,state = "readonly", width=40)
-drop.pack()
-drop.bind("<<ComboboxSelected>>", drop1_selected)
+drop1 = ttk.Combobox(root, values = oop_ids[1], textvariable = drop1_text, width=70)
+drop1.bind("<<ComboboxSelected>>", drop1_selected)
+drop1.bind("<KeyRelease>",drop1_check_input)
+drop1.pack()
 
 btn1 = tk.Button(root, text = "Start",state = "disabled", command=btn1_click)
 btn1.pack()
