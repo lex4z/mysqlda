@@ -13,7 +13,7 @@ root.title("window")
 #screen_width = root.winfo_screenwidth()
 #screen_height = root.winfo_screenheight()
 
-window_width = 500
+window_width = 700
 window_height = 300
 
 root.geometry(f"{window_width}x{window_height}")
@@ -54,7 +54,7 @@ def btn1_click():
     partial_sum = sum([i[0] for i in cursor])
     n2 = round(100*partial_sum/all_sum,2)
 
-    lbl2.config(text=f"Рассчет показателей для ООП {drop1_text.get()}\n Остепененность: {n1}%\n Практики: {n2}%")
+    lbl2.config(text=f"Рассчет показателей для ООП {drop1_text.get()}\n\n Доля научно-педагогических работников, имеющих ученую степень и(или) степень: {n1}%\n\n Доля работников из числа руководителей и(или) работников организаций, деятельность которых связана с направленностью реализуемой ОП: {n2}%")
 
     return
 
@@ -70,7 +70,7 @@ drop1.pack()
 btn1 = tk.Button(root, text = "Start",state = "disabled", command=btn1_click)
 btn1.pack()
 
-lbl2 = tk.Label(root, text="",width=65,wraplength=450)
+lbl2 = tk.Label(root, text="",width=80,wraplength=570)
 lbl2.pack()
 
 
