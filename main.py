@@ -34,25 +34,22 @@ oop_ids = [i[0] for i in cursor]
 
 #print(et_names,oop_names,oop_ids)
 
-def dropSelected(event):
+def drop1_selected(event):
     btn1.config(state="normal")
-    #lbl1.config(text = "Выберите направление")
 
-def show():
+def btn1_click():
     return
 
 drop_text = tk.StringVar()
-
-#drop = tk.OptionMenu(root, clicked, *oop_names, command=show)
 
 lbl1 = tk.Label(root, text = "Выберите направление")
 lbl1.pack()
 
 drop = ttk.Combobox(root, values = et_names, textvariable = drop_text,state = "readonly", width=40)
 drop.pack()
-drop.bind("<<ComboboxSelected>>", dropSelected)
+drop.bind("<<ComboboxSelected>>", drop1_selected)
 
-btn1 = tk.Button(root, text = "Start",state = "disabled", command=show)
+btn1 = tk.Button(root, text = "Start",state = "disabled", command=btn1_click)
 btn1.pack()
 
 
