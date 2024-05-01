@@ -18,6 +18,7 @@ window_height = int(screen_height*0.3)
 
 root.geometry(f"{window_width}x{window_height}")
 
+
 cursor = db.cursor()
 cursor.execute("SELECT Educational_Track_Name, Educational_Programm_Name FROM oop ORDER BY Educational_Programm_Name")
 
@@ -32,7 +33,6 @@ for (i,j) in cursor:
 cursor.execute("SELECT ID_OOP FROM real_oop ORDER BY Educational_Programm_Name")
 oop_ids = [i[0] for i in cursor]
 
-#print(et_names,oop_names,oop_ids)
 
 def drop1_selected(event):
     btn1.config(state="normal")
@@ -51,7 +51,6 @@ drop.bind("<<ComboboxSelected>>", drop1_selected)
 
 btn1 = tk.Button(root, text = "Start",state = "disabled", command=btn1_click)
 btn1.pack()
-
 
 
 root.mainloop()
