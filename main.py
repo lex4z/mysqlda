@@ -21,11 +21,11 @@ root.geometry(f"{window_width}x{window_height}")
 cursor = db.cursor()
 cursor.execute("SELECT ID_OOP,Educational_Programm_Name FROM real_oop ORDER BY Educational_Programm_Name")
 
-oop_ids = [[],[]] #oop_ids[0] - ID_OOP oop_ids[1] - oop_name[id]
+oop_ids = [] 
 
 for (i,j) in cursor:
-    oop_ids[0].append(i)
-    oop_ids[1].append(j)
+    oop_ids.append([j,i])
+oop_ids = dict(oop_ids)
 
 cursor.execute("SELECT Discipline_ID,Discipline_laboratory,Discipline_lectures,Discipline_practices FROM rpd WHERE stavka_part = 0")
 temp = [[],[]]
@@ -34,7 +34,7 @@ for (id, dlab, dlect, dpract) in cursor:
     temp[1].append(round((dlab+dlect+dpract)/900,2))
 
 for i in range(len(temp[0])):
-    cursor.execute("UPDATE rpd SET stavka_part = " + str(temp[1][i]) + " WHERE Discipline_ID = " + str(temp[0][i]))
+    cursor.execute(f"UPDATE rpd SET stavka_part = {temp[1][i]} WHERE Discipline_ID = {temp[0][i]}")
     db.commit()
 
 def drop1_selected(event):
@@ -42,7 +42,7 @@ def drop1_selected(event):
     btn1.focus_force()
 
 def btn1_click():
-    selected_oop_id = oop_ids[0][oop_ids[1].index(drop1_text.get())]
+    selected_oop_id = oop_ids[drop1_text.get()]
     cursor.execute(f"SELECT stavka_part FROM rpd WHERE ID_OOP = {selected_oop_id}")
     all_sum = sum([i[0] for i in cursor])
 
@@ -63,7 +63,7 @@ drop1_text = tk.StringVar()
 lbl1 = tk.Label(root, text = "Выберите ООП")
 lbl1.pack()
 
-drop1 = ttk.Combobox(root, values = oop_ids[1], textvariable = drop1_text, state="readonly", width=70)
+drop1 = ttk.Combobox(root, values = list(oop_ids.keys()), textvariable = drop1_text, state="readonly", width=70)
 drop1.bind("<<ComboboxSelected>>", drop1_selected)
 drop1.pack()
 
