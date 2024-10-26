@@ -38,7 +38,7 @@ cursor.execute("SELECT Discipline_ID,Discipline_laboratory,Discipline_lectures,D
 temp = [[],[]]
 for (id, dlab, dlect, dpract) in cursor:
     temp[0].append(id)
-    temp[1].append(round((dlab+dlect+dpract)/900,2))
+    temp[1].append(round((dlab+dlect+dpract)/900,10))
 
 for i in range(len(temp[0])):
     cursor.execute(f"UPDATE rpd SET stavka_part = {temp[1][i]} WHERE Discipline_ID = {temp[0][i]}")
@@ -54,15 +54,15 @@ def btn1_click():
     btn2.pack_forget()
     global all_sum, partial_sum1, partial_sum2, n1, n2
     selected_oop_id = oop_ids[drop1_text.get()]
-    cursor.execute(f"SELECT stavka_part FROM rpd WHERE ID_OOP = {selected_oop_id}")
-    all_sum = sum([i[0] for i in cursor])
+    cursor.execute(f"SELECT Discipline_laboratory,Discipline_lectures,Discipline_practices stavka_part FROM rpd WHERE ID_OOP = {selected_oop_id}")
+    all_sum = sum([sum(i) for i in cursor])
 
-    cursor.execute(f"SELECT stavka_part FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_academic_degree != 'нет' AND rpd.ID_OOP = {selected_oop_id}")
-    partial_sum1 = sum([i[0] for i in cursor])
+    cursor.execute(f"SELECT Discipline_laboratory,Discipline_lectures,Discipline_practices FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_academic_degree != 'нет' AND rpd.ID_OOP = {selected_oop_id}")
+    partial_sum1 = sum([sum(i) for i in cursor])
     n1 = round(100*partial_sum1/all_sum,2)
 
-    cursor.execute(f"SELECT stavka_part FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_practice_type = 'да' AND rpd.ID_OOP = {selected_oop_id}")
-    partial_sum2 = sum([i[0] for i in cursor])
+    cursor.execute(f"SELECT Discipline_laboratory,Discipline_lectures,Discipline_practices FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_practice_type = 'да' AND rpd.ID_OOP = {selected_oop_id}")
+    partial_sum2 = sum([sum(i) for i in cursor])
     n2 = round(100*partial_sum2/all_sum,2)
 
 
@@ -75,9 +75,9 @@ def btn1_click():
     if n2 < pract_percent: is_valid2 = 1
 
     output += f"Доля работников из числа руководителей и(или) работников организаций, деятельность которых связана с направленностью реализуемой ОП: {n2}% = {is_valid2*"НЕ"} соответствует требованиям(более {pract_percent}%)"
+    
     lbl2.config(justify=tk.LEFT,text=output)
 
-    
     if(is_valid1+is_valid2!=0): btn2.pack()
     
     return
@@ -87,16 +87,15 @@ def btn2_click():
     lbl3.pack_forget()
     output = "Для соответствия показателей:\n"
     if n1 < ost_percent:
-        n_ost = ceil(all_sum*ost_percent*9)
+        n_ost = ceil(all_sum*ost_percent/100)
         n_ost += n_ost%2
-        output += f"необходимо передать {n_ost-round(partial_sum1*900)} часа(ов) преподователю со степенью\n"
+        output += f"необходимо передать {n_ost-partial_sum1} часа(ов) преподователю со степенью\n"
 
     if n2 < pract_percent:
-        n_pract = ceil(all_sum*pract_percent*9)
+        n_pract = ceil(all_sum*pract_percent/100)
         n_pract += n_pract%2
-        output += f"необходимо передать {n_pract-round(partial_sum2*900)} часа(ов) преподователю-практику\n"
-
-    #output = f"1:{900*partial_sum1} -> {n_ost}\n2:{900*partial_sum2} -> {n_pract}\n{900*all_sum}"
+        output += f"необходимо передать {n_pract-partial_sum2} часа(ов) преподователю-практику\n"
+    
     
     lbl3.config(justify=tk.LEFT,text=output)
     lbl3.pack()
