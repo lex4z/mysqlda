@@ -89,12 +89,12 @@ def btn2_click():
     if n1 < ost_percent:
         n_ost = ceil(all_sum*ost_percent*9)
         n_ost += n_ost%2
-        output += f"необходимо передать {n_ost} часа(ов) преподователю со степенью\n"
+        output += f"необходимо передать {partial_sum1-n_ost} часа(ов) преподователю со степенью\n"
 
     if n2 < pract_percent:
         n_pract = ceil(all_sum*pract_percent*9)
         n_pract += n_pract%2
-        output += f"необходимо передать {n_pract} часа(ов) преподователю-практику\n"
+        output += f"необходимо передать {partial_sum2-n_pract} часа(ов) преподователю-практику\n"
 
     #output = f"1:{900*partial_sum1} -> {n_ost}\n2:{900*partial_sum2} -> {n_pract}\n{900*all_sum}"
     
