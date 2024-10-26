@@ -1,1 +1,8 @@
-{"host": "localhost", "user": "root", "password": "", "database": "anna","ost_percent": 70,"pract_percent": 5}
+{
+    "host": "localhost", 
+    "user": "root", 
+    "password": "", 
+    "database": "anna",
+    "ost_percent": 70,
+    "pract_percent": 5
+}
