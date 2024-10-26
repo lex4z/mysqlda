@@ -81,6 +81,8 @@ def btn1_click():
     if(is_valid1+is_valid2!=0): btn2.pack()
     
     return
+
+
 def btn2_click():
     lbl3.pack_forget()
     output = "Для соответствия показателей:\n"
