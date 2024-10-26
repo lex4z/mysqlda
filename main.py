@@ -89,13 +89,13 @@ def btn2_click():
     if n1 < ost_percent:
         n_ost = ceil(all_sum*ost_percent/100)
         n_ost += n_ost%2
-        output += f"необходимо передать {n_ost-partial_sum1} часа(ов) преподователю со степенью\n"
+        output += f"необходимо передать {n_ost-partial_sum1} часа(ов) преподователю(ям) со степенью\n"
 
     if n2 < pract_percent:
         n_pract = ceil(all_sum*pract_percent/100)
         n_pract += n_pract%2
-        output += f"необходимо передать {n_pract-partial_sum2} часа(ов) преподователю-практику\n"
-    
+        output += f"необходимо передать {n_pract-partial_sum2} часа(ов) преподователю(ям)-практику(ам)\n"
+
     
     lbl3.config(justify=tk.LEFT,text=output)
     lbl3.pack()
