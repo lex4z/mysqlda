@@ -1,0 +1,9 @@
+{
+    "host": "localhost:8889", 
+    "user": "root", 
+    "password": "root", 
+    "database": "Anna new",
+    "unix_socket": "/Applications/MAMP/tmp/mysql/mysql.sock",
+    "ost_percent": 70,
+    "pract_percent": 5
+}
