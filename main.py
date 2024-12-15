@@ -47,7 +47,7 @@ for i in range(len(temp[0])):
 def oop_selected(event):
     get_project_indicators_btn.config(state="normal")
     get_real_indicators_btn.config(state="normal")
-    get_project_indicators_btn.focus_force()
+    #get_project_indicators_btn.focus_force()
 
 
 def get_project_indicators():
@@ -114,6 +114,7 @@ def get_real_indicators():
     students_job_num = students_job_num[0]
     
     n1 = students_num[1]/students_num[0]
+    n2 = students_job_num[1]/students_job_num[0]
     
     real_indicators =  f"Рассчет показателей реализации для ООП {oop_drop_text.get()}\n\n"
     
@@ -127,7 +128,7 @@ def get_real_indicators():
     
     real_indicators += f"Сохранность контингента: {round(n1*100,2)}%\n{risk}\n\n"
 
-    real_indicators += f"Сохранность контингента целевого приёма:\nпринято по договорам о целевом обучении - {students_job_num[0]}\nобучаются на данный момент - {students_job_num[1]}"
+    real_indicators += f"Процент трудоустроенных в течении одного года после окончания обучения: {round(n2*100,2)}%"
     
     lbl2.config(justify=tk.LEFT,text=real_indicators)
     return
