@@ -34,7 +34,7 @@ for (i,j) in cursor:
     oop_ids.append([j,i])
 oop_ids = dict(oop_ids)
 
-# функция обработки события нажатия кнопки выбора ООП
+# функция обработки события выбора ООП
 def oop_selected(event):
     clear_buttons()
     lbl2.config(text="")
