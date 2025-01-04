@@ -1,4 +1,6 @@
+# подключение драйвера к СУБД MySQL
 import mysql.connector as mc
+# подключение библиотек
 import tkinter as tk
 from tkinter import ttk
 from math import ceil
@@ -32,18 +34,20 @@ for (i,j) in cursor:
     oop_ids.append([j,i])
 oop_ids = dict(oop_ids)
 
+# функция обработки события нажатия кнопки выбора ООП
 def oop_selected(event):
     clear_buttons()
     lbl2.config(text="")
     get_project_indicators_btn.config(state="normal")
     get_real_indicators_btn.config(state="normal")
 
+# функция очистки кнопки рекомендаций
 def clear_buttons():
     recomendations_label.pack_forget()
     get_recomendations_btn.pack_forget()
     get_disciplines_frame.pack_forget()
     #get_teachers_disciplines_btn.pack_forget()
-
+# функция получения показателей проектирования ООП
 def get_project_indicators():
     clear_buttons()
     
@@ -61,7 +65,7 @@ def get_project_indicators():
     pract_hours = sum([sum(i) for i in cursor])
     n2 = round(100*pract_hours/all_hours,2)
     
-    project_indicators = f"Рассчет показателей пректирования для ООП {oop_drop_text.get()}\n\n" 
+    project_indicators = f"Рассчет показателей проектирования для ООП {oop_drop_text.get()}\n\n" 
     is_valid1 = ''
     if n1 < ost_percent: is_valid1 = 'НЕ'
     project_indicators += f"Доля научно-педагогических работников, имеющих ученую степень: {n1}% - {is_valid1} соответствует требованиям (более {ost_percent}%)\n\n"
@@ -77,7 +81,7 @@ def get_project_indicators():
     
     return
 
-
+# функция  выдачи рекомендаций
 def get_recomendations():
     global display_n1, display_n2
     display_n1 = False
@@ -87,13 +91,13 @@ def get_recomendations():
         display_n1 = True
         n_ost = ceil(all_hours*ost_percent/100)
         n_ost += n_ost%2
-        recomendations += f"необходимо передать {n_ost-degree_hours} часа(ов) преподователю(ям) со степенью\n"
+        recomendations += f"необходимо передать {n_ost-degree_hours} часа(ов) преподавателю(ям) со степенью\n"
 
     if n2 < pract_percent:
         display_n2 = True
         n_pract = ceil(all_hours*pract_percent/100)
         n_pract += n_pract%2
-        recomendations += f"необходимо передать {n_pract-pract_hours} часа(ов) преподователю(ям)-практику(ам)\n"
+        recomendations += f"необходимо передать {n_pract-pract_hours} часа(ов) преподавателю(ям)-практику(ам)\n"
     
     recomendations_label.config(justify=tk.LEFT,text=recomendations)
     recomendations_label.pack()
@@ -102,6 +106,7 @@ def get_recomendations():
     get_disciplines_frame.pack()
     return
 
+# функция вывода списка дисциплин для исправления УП
 def get_up_disciplines():
     selected_oop_id = oop_ids[oop_drop_text.get()]
     cursor.execute(f"SELECT Discipline_name,Discipline_laboratory,Discipline_lectures,Discipline_practices,Discipline_intensity FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_academic_degree != 'нет' AND rpd.ID_OOP = {selected_oop_id}")
@@ -113,13 +118,14 @@ def get_up_disciplines():
     names = ("Наименование дисциплины","Лабораторные","Лекции","Практики","Трудоёмкость")
     tree_columns=("Discipline_name","Discipline_laboratory","Discipline_lectures","Discipline_practices","Discipline_intensity")
     tree_widths = (500,100,100,100,100)
-    text1 = "Дисциплины, закреплённые за остепенёнными преподователями, которые соответствуют требованиям"
-    text2 = "Дисциплины, закреплённые за преподователями-практиками, которые соответствуют требованиям"
+    text1 = "Дисциплины, закреплённые за остепенёнными преподавателями, которые соответствуют требованиям"
+    text2 = "Дисциплины, закреплённые за преподавателями-практиками, которые соответствуют требованиям"
     window_size = "900x500"
 
     create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить УП"',window_size,display_n1,display_n2)
     return
 
+# функция вывода списка дисциплин для исправления Преподавателей
 def get_teachers_disciplines():
     selected_oop_id = oop_ids[oop_drop_text.get()]
     cursor.execute(f"SELECT Discipline_name,Discipline_laboratory,Discipline_lectures,Discipline_practices,Discipline_intensity FROM rpd, teachers, tea_dis WHERE rpd.Discipline_ID = tea_dis.Discipline_ID AND tea_dis.Teacher_ID = teachers.Teacher_ID AND teachers.Teacher_academic_degree = 'нет' AND rpd.ID_OOP = {selected_oop_id}")
@@ -131,13 +137,13 @@ def get_teachers_disciplines():
     names = ("Наименование дисциплины","Лабораторные","Лекции","Практики","Трудоёмкость")
     tree_columns=("Discipline_name","Discipline_laboratory","Discipline_lectures","Discipline_practices","Discipline_intensity")
     tree_widths = (500,100,100,100,100)
-    text1 = "Дисциплины, закреплённые за остепенёнными преподователями, которые НЕ соответствуют требованиям"
-    text2 = "Дисциплины, закреплённые за преподователями-практиками, которые НЕ соответствуют требованиям"
+    text1 = "Дисциплины, закреплённые за остепенёнными преподавателями, которые НЕ соответствуют требованиям"
+    text2 = "Дисциплины, закреплённые за преподавателями-практиками, которые НЕ соответствуют требованиям"
     window_size = "900x500"
 
-    create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить преподователей"',window_size,display_n1,display_n2)
+    create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить преподавателей"',window_size,display_n1,display_n2)
     return
-
+# функция создания дополнительного окна с выводом списка дисциплин в виде таблицы
 def create_window_with_data(data1,data2,text1,text2,names,columns,widths,title,window_size,display_data1,display_data2):
     result_window = tk.Tk()
     result_window.title(title)
@@ -172,6 +178,7 @@ def create_window_with_data(data1,data2,text1,text2,names,columns,widths,title,w
     
     tree2.pack()
 
+# функция расчета реальных показателей
 def get_real_indicators():
     clear_buttons()
 
@@ -232,8 +239,4 @@ get_up_disciplines_btn = tk.Button(get_disciplines_frame, text="Исправит
 get_teachers_disciplines_btn = tk.Button(get_disciplines_frame, text="Исправить преподавателей",command=get_teachers_disciplines,width=30)
 
 
-
-
-
 root.mainloop()
-
