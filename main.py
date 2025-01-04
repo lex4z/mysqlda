@@ -87,13 +87,13 @@ def get_recomendations():
         display_n1 = True
         n_ost = ceil(all_hours*ost_percent/100)
         n_ost += n_ost%2
-        recomendations += f"необходимо передать {n_ost-degree_hours} часа(ов) преподователю(ям) со степенью\n"
+        recomendations += f"необходимо передать {n_ost-degree_hours} часа(ов) преподавателю(ям) со степенью\n"
 
     if n2 < pract_percent:
         display_n2 = True
         n_pract = ceil(all_hours*pract_percent/100)
         n_pract += n_pract%2
-        recomendations += f"необходимо передать {n_pract-pract_hours} часа(ов) преподователю(ям)-практику(ам)\n"
+        recomendations += f"необходимо передать {n_pract-pract_hours} часа(ов) преподавателю(ям)-практику(ам)\n"
     
     recomendations_label.config(justify=tk.LEFT,text=recomendations)
     recomendations_label.pack()
@@ -113,8 +113,8 @@ def get_up_disciplines():
     names = ("Наименование дисциплины","Лабораторные","Лекции","Практики","Трудоёмкость")
     tree_columns=("Discipline_name","Discipline_laboratory","Discipline_lectures","Discipline_practices","Discipline_intensity")
     tree_widths = (500,100,100,100,100)
-    text1 = "Дисциплины, закреплённые за остепенёнными преподователями, которые соответствуют требованиям"
-    text2 = "Дисциплины, закреплённые за преподователями-практиками, которые соответствуют требованиям"
+    text1 = "Дисциплины, закреплённые за остепенёнными преподавателями, которые соответствуют требованиям"
+    text2 = "Дисциплины, закреплённые за преподавателями-практиками, которые соответствуют требованиям"
     window_size = "900x500"
 
     create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить УП"',window_size,display_n1,display_n2)
@@ -131,11 +131,11 @@ def get_teachers_disciplines():
     names = ("Наименование дисциплины","Лабораторные","Лекции","Практики","Трудоёмкость")
     tree_columns=("Discipline_name","Discipline_laboratory","Discipline_lectures","Discipline_practices","Discipline_intensity")
     tree_widths = (500,100,100,100,100)
-    text1 = "Дисциплины, закреплённые за остепенёнными преподователями, которые НЕ соответствуют требованиям"
-    text2 = "Дисциплины, закреплённые за преподователями-практиками, которые НЕ соответствуют требованиям"
+    text1 = "Дисциплины, закреплённые за остепенёнными преподавателями, которые НЕ соответствуют требованиям"
+    text2 = "Дисциплины, закреплённые за преподавателями-практиками, которые НЕ соответствуют требованиям"
     window_size = "900x500"
 
-    create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить преподователей"',window_size,display_n1,display_n2)
+    create_window_with_data(degree_disciplines,pract_disciplines,text1,text2,names,tree_columns,tree_widths,'результат "Исправить преподавателей"',window_size,display_n1,display_n2)
     return
 
 def create_window_with_data(data1,data2,text1,text2,names,columns,widths,title,window_size,display_data1,display_data2):
